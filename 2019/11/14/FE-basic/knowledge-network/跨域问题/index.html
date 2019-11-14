@@ -1,0 +1,127 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="浏览器缓存策略"><meta name="keywords" content="网络"><meta name="author" content="ptp"><meta name="copyright" content="ptp"><title>浏览器缓存策略 | PTP'S BLOG</title><link rel="shortcut icon" href="/melody-favicon.ico"><link rel="stylesheet" href="/css/index.css?version=1.6.1"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css?version=1.6.1"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css?version=1.6.1"><link rel="dns-prefetch" href="https://cdn.staticfile.org"><link rel="dns-prefetch" href="https://cdn.bootcss.com"><link rel="dns-prefetch" href="https://creativecommons.org"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  }
+} </script></head><body><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar"><div class="toggle-sidebar-info text-center"><span data-toggle="切换文章详情">切换站点概览</span><hr></div><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#什么是跨域？"><span class="toc-number">1.</span> <span class="toc-text">什么是跨域？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#背景"><span class="toc-number">2.</span> <span class="toc-text">背景</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#同源策略"><span class="toc-number">3.</span> <span class="toc-text">同源策略</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#解决跨域问题方案"><span class="toc-number">4.</span> <span class="toc-text">解决跨域问题方案</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#jsonp解决跨域-——-前端与后端配合"><span class="toc-number">4.1.</span> <span class="toc-text">jsonp解决跨域 —— 前端与后端配合</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#document-domain-iframe跨域-——-适用于主域相同，子域不同的情况"><span class="toc-number">4.2.</span> <span class="toc-text">document.domain + iframe跨域 —— 适用于主域相同，子域不同的情况</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#location-hash-iframe跨域-——-适用于跨域通信"><span class="toc-number">4.3.</span> <span class="toc-text">location.hash + iframe跨域 —— 适用于跨域通信</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#window-name-iframe跨域-——-跨域请求数据"><span class="toc-number">4.4.</span> <span class="toc-text">window.name + iframe跨域 —— 跨域请求数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#postMessage跨域-——-不同窗口，嵌套iframe之间的消息传递，数据传递"><span class="toc-number">4.5.</span> <span class="toc-text">postMessage跨域 —— 不同窗口，嵌套iframe之间的消息传递，数据传递</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CORS-——-服务器设置Access-Control-Allow-Origin"><span class="toc-number">4.6.</span> <span class="toc-text">CORS —— 服务器设置Access-Control-Allow-Origin</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#nginx反向代理接口跨域"><span class="toc-number">4.7.</span> <span class="toc-text">nginx反向代理接口跨域</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#webSocket实现跨域"><span class="toc-number">4.8.</span> <span class="toc-text">webSocket实现跨域</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#总结"><span class="toc-number">5.</span> <span class="toc-text">总结</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#nginx反向代理服务器"><span class="toc-number">6.</span> <span class="toc-text">nginx反向代理服务器</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#nginx介绍"><span class="toc-number">6.1.</span> <span class="toc-text">nginx介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#解决原理"><span class="toc-number">6.2.</span> <span class="toc-text">解决原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#配置文件"><span class="toc-number">6.3.</span> <span class="toc-text">配置文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#实现跨域"><span class="toc-number">6.4.</span> <span class="toc-text">实现跨域</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#注意"><span class="toc-number">6.5.</span> <span class="toc-text">注意</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考"><span class="toc-number">7.</span> <span class="toc-text">参考</span></a></li></ol></div></div><div class="author-info hide"><div class="author-info__avatar text-center"><img src="http://q0jez52gy.bkt.clouddn.com/blog-avatar.jpg"></div><div class="author-info__name text-center">ptp</div><div class="author-info__description text-center"></div><div class="follow-button"><a href="https://github.com/youyingjie114" target="_blank" rel="noopener">Follow Me</a></div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/archives"><span class="pull-left">文章</span><span class="pull-right">43</span></a><a class="author-info-articles__tags article-meta" href="/tags"><span class="pull-left">标签</span><span class="pull-right">2</span></a><a class="author-info-articles__categories article-meta" href="/categories"><span class="pull-left">分类</span><span class="pull-right">4</span></a></div></div></div><div id="content-outer"><div id="top-container" style="background-image: url(http://q0jez52gy.bkt.clouddn.com/blog-background.jpg)"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/">PTP'S BLOG</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus"><a class="site-page" href="/">Home</a><a class="site-page" href="/archives">Archives</a><a class="site-page" href="/tags">Tags</a><a class="site-page" href="/categories">Categories</a></span></div><div id="post-info"><div id="post-title">浏览器缓存策略</div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2019-11-14</time><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/%E5%89%8D%E7%AB%AF%E5%9F%BA%E7%A1%80/">前端基础</a><i class="fa fa-angle-right" aria-hidden="true"></i><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/%E5%89%8D%E7%AB%AF%E5%9F%BA%E7%A1%80/%E7%BD%91%E7%BB%9C%E7%B1%BB%E9%97%AE%E9%A2%98/">网络类问题</a></div></div></div><div class="layout" id="content-inner"><article id="post"><div class="article-container" id="post-content"><h1 id="什么是跨域？"><a href="#什么是跨域？" class="headerlink" title="什么是跨域？"></a>什么是跨域？</h1><ul>
+<li>广义跨域<ul>
+<li>资源跳转：表单提交</li>
+<li>资源嵌入：link、script、img、frame标签，CSS中的background:url()、@font-face()文件外链</li>
+<li>脚本请求：JS发起的ajax请求</li>
+</ul>
+</li>
+<li>狭义跨域：浏览器的同源策略限制</li>
+</ul>
+<a id="more"></a>
+
+<h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>我们在本文讨论的是狭义的跨域概念</p>
+<p>为了安全起见，浏览器对页面的资源访问进行了限制，A页面想获得B页面的资源，如果A页面和B页面的协议，域名，端口均相同，则跨域正常操作；一旦有一项不同，就涉及跨域访问。所以跨域问题的出现，其实是由于浏览器的同源策略限制导致的</p>
+<h1 id="同源策略"><a href="#同源策略" class="headerlink" title="同源策略"></a>同源策略</h1><p>协议 + 域名 + 端口 相同</p>
+<h1 id="解决跨域问题方案"><a href="#解决跨域问题方案" class="headerlink" title="解决跨域问题方案"></a>解决跨域问题方案</h1><ul>
+<li>通过jsonp跨域</li>
+<li>document.domain + iframe跨域</li>
+<li>location.hash + iframe</li>
+<li>window.name + iframe跨域</li>
+<li>postMessage跨域</li>
+<li>跨域资源共享（CORS）</li>
+<li>nginx代理跨域</li>
+<li>nodejs中间件代理跨域</li>
+<li>WebSocket协议跨域</li>
+</ul>
+<p>下面给出各方案的特点，使用方法可以参考<a href="https://segmentfault.com/a/1190000011145364" target="_blank" rel="noopener">使用详情</a></p>
+<h2 id="jsonp解决跨域-——-前端与后端配合"><a href="#jsonp解决跨域-——-前端与后端配合" class="headerlink" title="jsonp解决跨域 —— 前端与后端配合"></a>jsonp解决跨域 —— 前端与后端配合</h2><ul>
+<li>前端动态创建script标签，将请求地址放到src中</li>
+<li>后端调用回调函数</li>
+</ul>
+<p>弊端：只支持get请求</p>
+<h2 id="document-domain-iframe跨域-——-适用于主域相同，子域不同的情况"><a href="#document-domain-iframe跨域-——-适用于主域相同，子域不同的情况" class="headerlink" title="document.domain + iframe跨域 —— 适用于主域相同，子域不同的情况"></a>document.domain + iframe跨域 —— 适用于主域相同，子域不同的情况</h2><ul>
+<li>两个页面通过JS强制设置document.domain为主域，实现同域</li>
+</ul>
+<p>PS：子域不同不适用原因：因为设置document.domain只支持设置为本身或者是基础域名（suffix后缀域名）</p>
+<h2 id="location-hash-iframe跨域-——-适用于跨域通信"><a href="#location-hash-iframe跨域-——-适用于跨域通信" class="headerlink" title="location.hash + iframe跨域 —— 适用于跨域通信"></a>location.hash + iframe跨域 —— 适用于跨域通信</h2><ul>
+<li>a与b不同域，借助a的同域c来和b实现跨域通信。a的iframe嵌套b，b的iframe嵌套c</li>
+<li>不同域之间，a与b，b与c，通过location.hash单向通信，a修改b的src，b修改c的src</li>
+<li>同域之间，a与c，c直接通过parent.parent.callback访问a的回调函数</li>
+</ul>
+<h2 id="window-name-iframe跨域-——-跨域请求数据"><a href="#window-name-iframe跨域-——-跨域请求数据" class="headerlink" title="window.name + iframe跨域 —— 跨域请求数据"></a>window.name + iframe跨域 —— 跨域请求数据</h2><ul>
+<li>在iframe加载完外域之后，修改src由外域转为本域</li>
+<li>在外域修改window.name，在本域可以读取到，实现跨域<br>PS：window.name的特别之处，name值在不同的页面（甚至不同域名）加载后依旧存在，并且可以支持非常长的 name 值（2MB）</li>
+</ul>
+<h2 id="postMessage跨域-——-不同窗口，嵌套iframe之间的消息传递，数据传递"><a href="#postMessage跨域-——-不同窗口，嵌套iframe之间的消息传递，数据传递" class="headerlink" title="postMessage跨域 —— 不同窗口，嵌套iframe之间的消息传递，数据传递"></a>postMessage跨域 —— 不同窗口，嵌套iframe之间的消息传递，数据传递</h2><ul>
+<li>访问window.postMessage属性，指定域，传递数据</li>
+<li>在window设置监听器</li>
+</ul>
+<h2 id="CORS-——-服务器设置Access-Control-Allow-Origin"><a href="#CORS-——-服务器设置Access-Control-Allow-Origin" class="headerlink" title="CORS —— 服务器设置Access-Control-Allow-Origin"></a>CORS —— 服务器设置Access-Control-Allow-Origin</h2><ul>
+<li>同源策略限制，浏览器所在cookie为跨域请求接口所在域的cookie，而非当前页的cookie</li>
+<li>服务器设置Access-Control-Allow-Origin</li>
+</ul>
+<h2 id="nginx反向代理接口跨域"><a href="#nginx反向代理接口跨域" class="headerlink" title="nginx反向代理接口跨域"></a>nginx反向代理接口跨域</h2><ul>
+<li>通过nginx在前端服务器配置一个代理服务器，端口不同 —— 请求nginx转发到前端服务器</li>
+<li>修改cookie中的domain信息，方便带上domain1的cookie发起请求</li>
+</ul>
+<p>Ps：<a href="https://www.cnblogs.com/renjing/p/6394725.html" target="_blank" rel="noopener">https://www.cnblogs.com/renjing/p/6394725.html</a></p>
+<h2 id="webSocket实现跨域"><a href="#webSocket实现跨域" class="headerlink" title="webSocket实现跨域"></a>webSocket实现跨域</h2><ul>
+<li>前端使用Socket.io，封装了webSocket接口</li>
+<li>Node后台也需要引入socket.io</li>
+</ul>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>所以禁止跨域，实际上是浏览器的安全行为，上述的大多数方案都是需要服务器做相应的处理去配合前端解决跨域问题。那如果有需求是目标后端服务器不能做修改，那么除了nginx的其他方法都不能实现。</p>
+<p>下面着重讲一下nginx的方法如何解决跨域问题</p>
+<h1 id="nginx反向代理服务器"><a href="#nginx反向代理服务器" class="headerlink" title="nginx反向代理服务器"></a>nginx反向代理服务器</h1><h2 id="nginx介绍"><a href="#nginx介绍" class="headerlink" title="nginx介绍"></a>nginx介绍</h2><p>nginx是web服务器，功能包括：</p>
+<ul>
+<li>处理静态文件，索引文件以及自动索引；</li>
+<li>反向代理加速(无缓存)，简单的负载均衡和容错；</li>
+</ul>
+<h2 id="解决原理"><a href="#解决原理" class="headerlink" title="解决原理"></a>解决原理</h2><p>在解决跨域问题上，将前端项目部署在前端服务器上，在前端服务器上搭建一个nginx服务器。现在修改nginx配置，实现由页面请求本域名的一个地址，nginx监听这个地址，<strong>拦截请求，若请求静态资源，直接返回资源文件；若请求目标服务器，由nginx服务器转发该请求到目标服务器，nginx服务器接收处理后的结果</strong>，将处理后的结果返回给页面，实现跨域。</p>
+<p>因为狭义的跨域问题是因为浏览器的同源策略，如果将请求交给nginx服务器去完成，就不会出现跨域问题了。</p>
+<p>反向代理：由于页面访问的是nginx服务器，通过将不同的请求转发到前端项目服务器或者是目标后端服务器，起到的是代理服务器的作用，所以是反向代理。（反向代理：代理服务器）</p>
+<h2 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h2><p>下面阐述几个这里配置文件中，比较关键的几个字段，仅供参考。详细配置还是建议查看官方</p>
+<ul>
+<li>listen：监听端口号，nginx运行的端口号</li>
+<li>server_name：虚拟服务器识别路径。不同的域名的请求，会通过request header中的host字段，匹配到特定的server模块，将请求转发到对应的服务器中。针对某个请求的host，多个server块匹配的顺序参考 <a href="https://blog.csdn.net/Cheng_Kohui/article/details/82930464" target="_blank" rel="noopener">nginx配置:server_name的作用</a><br>location：页面定位规则，解决跨域问题重点配置</li>
+</ul>
+<p>配置nginx.conf，修改配置文件中的server模块，如下图：<br><img src="http://q0jez52gy.bkt.clouddn.com/basic-%E8%B7%A8%E5%9F%9F%E9%97%AE%E9%A2%98-1.png" alt="nginx.conf配置文件"></p>
+<p>一个server代表启动一个服务，对应的location是定位规则。我们可以看出来，nginx服务器是通过location的配置来路由的，所以我需要修改location的配置。</p>
+<h2 id="实现跨域"><a href="#实现跨域" class="headerlink" title="实现跨域"></a>实现跨域</h2><p>假设现在，我们的前端项目是 ‘localhost:3000’，目标后端服务器是另一个局域网IP，这里我们假设为 ‘192.168.2.233:8080’。其中前端项目的localhost:3000/html/msg.html需要请求 ‘<a href="http://192.168.2.233:8080/api/?name=ptp&#39;" target="_blank" rel="noopener">http://192.168.2.233:8080/api/?name=ptp&#39;</a></p>
+<p>对应的ajax请求为：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> url = <span class="string">'http://192.168.2.233:8080/api/?name=ptp'</span></span><br><span class="line">$.ajax(&#123;</span><br><span class="line">    type: <span class="string">"GET"</span>,</span><br><span class="line">    url: url,</span><br><span class="line">    success: <span class="function"><span class="keyword">function</span> (<span class="params">res</span>) </span>&#123;</span><br><span class="line">        <span class="comment">// TODO</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>上述的请求会遇到跨域问题，我们需要通过nginx去请求目标后端服务器。分为两个步骤</p>
+<ol>
+<li>配置location，实现静态资源请求转向前端项目服务器</li>
+<li>配置location，实现请求目标后端服务器，转向后端服务器，将结果通过nginx返回给页面</li>
+</ol>
+<p>针对前端项目资源请求的跳转，配置如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">location / &#123;</span><br><span class="line">    proxy_pass http://localhost:3000;     # 前端项目地址</span><br><span class="line">    root       html;</span><br><span class="line">    index      index.html index.htm;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>解释如下：这边理解很简单，当访问nginx服务器，路径为 ‘/‘ 的时候，请求转发到前端项目</p>
+<p>针对请求后端服务器的请求跳转，配置如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">location /apis &#123;  # 添加访问目录为/apis的代理配置</span><br><span class="line">    proxy_pass http://192.168.2.233:8080/;       # 目标后端服务器地址</span><br><span class="line">    rewrite    ^/apis/(.*)$ /$1 break;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>解释如下：</p>
+<ul>
+<li>location后面跟的是匹配规则，用于拦截请求，这里匹配任何以 ‘/apis’ 开头的路径</li>
+<li>rewrite表示重写请求路径，只对路径重写，不包括参数，rewrite的语法格式为：’rewrite <regex> <replacement> [flag];’；</li>
+<li>这里的 ‘^/apis/(.*)$ /$1 break’ 表示，匹配所有 ‘/apis/‘ 开头的路径，并且将用$1替换匹配到的字段，$1表示<regex>中的第一个()中包含的内容，也就是 ‘(.*)’。整个配置的意思就是去掉路径中的 ‘/apis/‘</li>
+</ul>
+<p>此时针对上述的场景，ajax请求的链接需要修改为相对地址，以达到请求nginx服务器的效果</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// var url = 'http://www.b.com/api/msg?name=ptp'</span></span><br><span class="line"><span class="keyword">var</span> proxyurl = <span class="string">'api/msg?name=ptp'</span></span><br><span class="line">$.ajax(&#123;</span><br><span class="line">    type: <span class="string">"GET"</span>,</span><br><span class="line">    url: url,</span><br><span class="line">    success: <span class="function"><span class="keyword">function</span> (<span class="params">res</span>) </span>&#123;</span><br><span class="line">        <span class="comment">// TODO</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>这里我们的nginx服务器，因为搭建在前端项目，也就是我本人的本地，所以server_name是localhost<br>所以这样的配置，在页面访问nginx服务器的时候，如果访问路径 ‘/‘，也就是直接访问 ‘localhost’，nginx服务器会访问前端项目资源，做一个静态资源的返回；<br>如果访问路径 ‘/apis’，在浏览器看来是请求 ‘localhost/apis’，会被nginx拦截下来，然后转向目标后端服务器，将后端服务器返回的结果返回给页面，实现接口调用的效果。</p>
+<h2 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h2><p>这里解释一下location中，proxy_pass字段最后带不带/的效果区别<br>带</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">location /apis &#123;  # 添加访问目录为/apis的代理配置</span><br><span class="line">    proxy_pass http://192.168.2.233:8080/;       # 目标后端服务器地址</span><br><span class="line">    rewrite    ^/apis/(.*)$ /$1 break;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>最后带/的情况，如果访问 ‘localhost/apis/msg?name=ptp’，会被nginx服务器将请求路径转为 ‘<a href="http://192.168.2.233:8080/apis/msg?name=ptp&#39;" target="_blank" rel="noopener">http://192.168.2.233:8080/apis/msg?name=ptp&#39;</a><br>带上了location后的 ‘/apis’</p>
+<p>不带</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">location /apis &#123;  # 添加访问目录为/apis的代理配置</span><br><span class="line">    proxy_pass http://192.168.2.233:8080;       # 目标后端服务器地址</span><br><span class="line">    rewrite    ^/apis/(.*)$ /$1 break;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>不带/的话，如果访问 ‘localhost/apis/msg?name=ptp’，会被nginx服务器将请求路径转为 ‘<a href="http://192.168.2.233:8080/msg?name=ptp&#39;" target="_blank" rel="noopener">http://192.168.2.233:8080/msg?name=ptp&#39;</a></p>
+<p>所以这里我们需要加上/</p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><a href="https://segmentfault.com/a/1190000011145364" target="_blank" rel="noopener">前端常见跨域解决方案（全）</a></li>
+<li><a href="https://www.cnblogs.com/gabrielchen/p/5066120.html" target="_blank" rel="noopener">用nginx的反向代理机制解决前端跨域问题</a></li>
+</ul>
+</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined" target="_blank" rel="noopener">ptp</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://youyingjie114.github.io/2019/11/14/FE-basic/knowledge-network/%E8%B7%A8%E5%9F%9F%E9%97%AE%E9%A2%98/">https://youyingjie114.github.io/2019/11/14/FE-basic/knowledge-network/%E8%B7%A8%E5%9F%9F%E9%97%AE%E9%A2%98/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://youyingjie114.github.io">PTP'S BLOG</a>！</span></div></div><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E7%BD%91%E7%BB%9C/">网络</a></div><nav id="pagination"><div class="next-post pull-right"><a href="/2019/11/11/FE-basic/knowledge-network/cookie%E3%80%81localStorage%E3%80%81sessionStorage%E7%9A%84%E5%8C%BA%E5%88%AB/"><span>cookie、localStorage、sessionStorage的区别</span><i class="fa fa-chevron-right"></i></a></div></nav></div></div><footer class="footer-bg" style="background-image: url(http://q0jez52gy.bkt.clouddn.com/blog-background.jpg)"><div class="layout" id="footer"><div class="copyright">&copy;2019 By ptp</div><div class="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_page_pv"><i class="far fa-file"></i><span id="busuanzi_value_page_pv"></span><span></span></span></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@latest/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-ui-pack@latest/velocity.ui.min.js"></script><script src="/js/utils.js?version=1.6.1"></script><script src="/js/fancybox.js?version=1.6.1"></script><script src="/js/sidebar.js?version=1.6.1"></script><script src="/js/copy.js?version=1.6.1"></script><script src="/js/fireworks.js?version=1.6.1"></script><script src="/js/transition.js?version=1.6.1"></script><script src="/js/scroll.js?version=1.6.1"></script><script src="/js/head.js?version=1.6.1"></script><script>if(/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+  $('#nav').addClass('is-mobile')
+  $('footer').addClass('is-mobile')
+}</script></body></html>
